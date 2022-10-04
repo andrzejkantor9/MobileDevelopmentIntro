@@ -33,6 +33,23 @@ namespace SimpleDriving
         ////////////////////////////////////////////////////////////////////////////////////////////////
 
         #region EngineMethods & Contructors
+        private void Start() 
+        {
+            if(PlayerPrefs.GetInt(Store.NEW_CAR_UNLOCKED_KEY, 0) == 1)
+            {
+                // GetComponentInChildren<Renderer>().material.color = Color.blue;
+    
+                MaterialPropertyBlock materialPropertyBlock = new MaterialPropertyBlock();
+                Renderer renderer = GetComponentInChildren<Renderer>();
+                int colorID = Shader.PropertyToID("_BaseColor");
+                // int colorID = Shader.PropertyToID("_Color");
+
+                renderer.GetPropertyBlock(materialPropertyBlock);
+                materialPropertyBlock.SetColor(colorID, Color.blue);
+                renderer.SetPropertyBlock(materialPropertyBlock);    
+            }
+        }
+
         private void Update() 
         {
             _speed += _speedGainPerSecond * Time.deltaTime;

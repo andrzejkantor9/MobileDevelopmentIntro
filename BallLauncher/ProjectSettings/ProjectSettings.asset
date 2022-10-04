@@ -639,7 +639,8 @@ PlayerSettings:
   webGLMemoryLinearGrowthStep: 16
   webGLMemoryGeometricGrowthStep: 0.2
   webGLMemoryGeometricGrowthCap: 96
-  scriptingDefineSymbols: {}
+  scriptingDefineSymbols:
+    Android: MULTITOUCH
   additionalCompilerArguments: {}
   platformArchitecture: {}
   scriptingBackend: {}

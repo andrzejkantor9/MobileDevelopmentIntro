@@ -5,11 +5,12 @@ using UnityEngine;
 using UnityEngine.Assertions;
 
 using UnityEngine.InputSystem;
+#if MULTITOUCH
 using UnityEngine.InputSystem.EnhancedTouch;
 using Touch = UnityEngine.InputSystem.EnhancedTouch.Touch;
+#endif
 
-//try making multi touch work somehow
-//bug: can drag ball to ground or behind tower
+//MULTITOUCH is not working
 namespace BallLauncher.Input
 {
     public class BallHandler : MonoBehaviour
@@ -65,12 +66,16 @@ namespace BallLauncher.Input
 
         private void OnEnable() 
         {
+#if MULTITOUCH
             EnhancedTouchSupport.Enable();
+#endif
         }
 
         private void OnDisable() 
         {
+#if MULTITOUCH
             EnhancedTouchSupport.Disable();
+#endif
         }
 
         private void Update() 
@@ -78,18 +83,42 @@ namespace BallLauncher.Input
             if(!_currentBallRigidbody)
                 return;
 
-            // if(Touchscreen.current.primaryTouch.press.isPressed)
-            if(Touch.activeTouches.Count != 0)
+#if !MULTITOUCH
+            if(!Touchscreen.current.primaryTouch.press.isPressed)
+            {
+                if(_isDragging)
+                {
+                    LaunchBall();
+                }
+
+                _isDragging = false;
+            }
+            else
             {
                 _currentBallRigidbody.isKinematic = true;
                 _isDragging = true;
 
                 Vector2 touchPosition = Touchscreen.current.primaryTouch.position.ReadValue();
                 Vector3 worldPosition = _camera.ScreenToWorldPoint(touchPosition);
+                
+                _currentBallRigidbody.position = worldPosition;
+                Debug.Log($"touchPosition: {touchPosition}, worldPosition: {worldPosition}");
+            }
+#else
+            if(Touch.activeTouches.Count != 0)
+            {
+                Vector2 touchPosition = new Vector2();
+
+                foreach(Touch touch in Touch.activeTouches)
+                {
+                     if(new Rect(0,0,Screen.width, Screen.height).Contains(touch.screenPosition))
+                        touchPosition += touch.screenPosition;
+                }
+
+                touchPosition /= Touch.activeTouches.Count;
+                Vector3 worldPosition = _camera.ScreenToWorldPoint(touchPosition);
 
                 _currentBallRigidbody.position = worldPosition;
-
-                Debug.Log($"touchPosition: {touchPosition}, worldPosition: {worldPosition}");
             }
             else
             {
@@ -100,6 +129,7 @@ namespace BallLauncher.Input
 
                 _isDragging = false;
             }
+#endif
         }
         #endregion
 

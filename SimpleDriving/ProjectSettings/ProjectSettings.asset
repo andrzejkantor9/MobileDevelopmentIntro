@@ -856,7 +856,8 @@ PlayerSettings:
   XboxOneOverrideIdentityName: 
   XboxOneOverrideIdentityPublisher: 
   vrEditorSettings: {}
-  cloudServicesEnabled: {}
+  cloudServicesEnabled:
+    Purchasing: 1
   luminIcon:
     m_Name: 
     m_ModelFolderPath: 
@@ -869,12 +870,12 @@ PlayerSettings:
     m_VersionCode: 1
     m_VersionName: 
   apiCompatibilityLevel: 6
-  activeInputHandler: 2
-  cloudProjectId: 
+  activeInputHandler: 1
+  cloudProjectId: 9fc26cda-fa5f-4137-9c30-7e22117cb298
   framebufferDepthMemorylessMode: 0
   qualitySettingsNames: []
-  projectName: 
-  organizationId: 
+  projectName: SimpleDriving
+  organizationId: berserkerbananagamedev
   cloudEnabled: 0
   legacyClampBlendShapeWeights: 0
   playerDataPath: 
